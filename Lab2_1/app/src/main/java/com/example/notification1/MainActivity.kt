@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         requestSinglePermission(Manifest.permission.POST_NOTIFICATIONS)
+        createNotificationChannel()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             R.id.show_noti_progress -> showNotificationProgress()
             R.id.show_noti_button -> showNotificationButton()
             R.id.show_noti_reg_activity -> showNotificationRegularActivity()
-            R.id.show_noti_special_activity -> showNotificationSpecialAcitivity()
+            R.id.show_noti_special_activity -> showNotificationSpecialActivity()
         }
 
         return super.onOptionsItemSelected(item)
@@ -175,9 +176,31 @@ class MainActivity : AppCompatActivity() {
             addNextIntentWithParentStack(intent)
             getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
         }
+
+        val builder = NotificationCompat.Builder(this, channelID)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle("Notification Title")
+            .setContentText("Notification body")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true) // auto remove this notification when user touches it
+        NotificationManagerCompat.from(this)
+            .notify(myNotificationID, builder.build())
     }
 
-    private fun showNotificationSpecialAcitivity() {
-
+    private fun showNotificationSpecialActivity() {
+        val intent = Intent(this, TempActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent,
+            PendingIntent.FLAG_IMMUTABLE)
+        val builder = NotificationCompat.Builder(this, channelID)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle("Notification Title")
+            .setContentText("Notification body")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true) // auto remove this notification when user touches it
+        NotificationManagerCompat.from(this)
+            .notify(myNotificationID, builder.build())
     }
 }
