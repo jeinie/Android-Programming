@@ -1,4 +1,4 @@
-package com.example.animation
+package com.example.animationlab
 
 import org.junit.Test
 
