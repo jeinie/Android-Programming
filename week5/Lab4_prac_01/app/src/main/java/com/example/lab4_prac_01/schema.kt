@@ -1,7 +1,7 @@
 package com.example.lab4_prac_01
 
 import androidx.room.*
-import java.text.FieldPosition
+import androidx.room.ForeignKey.CASCADE
 
 @Entity(tableName = "student_table")
 data class Student (
@@ -21,7 +21,7 @@ data class ClassInfo (
 @Entity(tableName = "enrollment",
     primaryKeys = ["sid", "cid"],
     foreignKeys = [
-        ForeignKey(entity = Student::class, parentColumns = ["student_id"], childColumns = ["sid"]),
+        ForeignKey(entity = Student::class, parentColumns = ["student_id"], childColumns = ["sid"], onDelete = CASCADE),
         ForeignKey(entity = ClassInfo::class, parentColumns = ["id"], childColumns = ["cid"])
     ],
     indices = [Index(value=["sid", "cid"])]
