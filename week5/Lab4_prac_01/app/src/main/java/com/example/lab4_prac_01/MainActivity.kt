@@ -88,9 +88,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.deleteStudent.setOnClickListener {
-            val id = findViewById<EditText>(R.id.edit_student_id).text.toString()
+            val id = binding.editStudentId.text.toString()
             CoroutineScope(Dispatchers.IO).launch {
                 myDao.deleteStudent(Student(id.toInt(),""))
+            }
+        }
+
+        binding.enrollStudent.setOnClickListener {
+            val id = binding.editStudentId.text.toString().toInt()
+            CoroutineScope(Dispatchers.IO).launch {
+                myDao.insertEnrollment(Enrollment(id, 1))
             }
         }
     }
