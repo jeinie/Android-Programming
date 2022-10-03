@@ -70,7 +70,7 @@ class MyViewModel:ViewModel() {
 }
 
 class RestActivity : AppCompatActivity() {
-    private lateinit var myViewModel: ViewModel
+    private lateinit var myViewModel: MyViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rest)
