@@ -42,6 +42,9 @@ class MyViewModel:ViewModel() {
 
     val response = MutableLiveData<String>()
 
+    // 캐시 저장
+    val mutableData: MutableMap<String, String> = mutableMapOf()
+
     init {
         val user = ""
         retrofitInit()
@@ -58,10 +61,33 @@ class MyViewModel:ViewModel() {
                         append(" - ")
                         append(it.owner.login)
                         append("\n")
+                        // 캐시에 저장
+                        mutableData.put(it.name, it.owner.login)
+                        Log.d("캐시에 저장되었나", mutableData.keys.toString())
+                        Log.d("캐시에 저장되었나", mutableData.values.toString())
                     }
                 }.toString()
+                if (user == mutableData.values.toString()) {
+                    response.value = StringBuilder().apply {
+                        repos.forEach {
+                            append(mutableData.get(user))
+                            append(" - ")
+                            append(mutableData.get(user))
+                            append("\n")
+                        }
+                    }.toString()
+                }
+
             } catch (e:Exception) {
                 response.value = "Failed to connect to the server"
+                /*response.value = StringBuilder().apply {
+                    repos.forEach {
+                        append(mutableData.get(user))
+                        append(" - ")
+                        append(mutableData.get(user))
+                        append("\n")
+                    }
+                }.toString()*/
             }
         }
     }
@@ -90,6 +116,7 @@ class MainActivity : AppCompatActivity() {
             binding.textResponse.text = it
             val user = binding.editTextTextPersonName.text.toString()
             binding.button.setOnClickListener {
+                Log.d("버튼 눌림", "query 버튼 눌림")
                 val retrofit = Retrofit.Builder()
                     .baseUrl("https://api.github.com/")
                     .addConverterFactory(ScalarsConverterFactory.create())
@@ -99,10 +126,12 @@ class MainActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         result = api.listRepos(user)
+                        Log.d("result 는 무슨 내용?", result.toString())
                     } catch (e:Exception) {
                         Log.d("connect", "Failed to connect")
                     }
                     withContext(Dispatchers.Main) {
+                        Log.d("refreshData(user)", "refreshData(user)")
                         myViewModel.refreshData(user)
                     }
                 }
