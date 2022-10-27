@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(Firebase.auth.currentUser == null) {
+        if (Firebase.auth.currentUser == null) {
             startActivity(
                 Intent(this, LoginActivity::class.java)
             )
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding.textUID.text = Firebase.auth.currentUser?.uid ?: "No User"
         binding.buttonSignout.setOnClickListener {
             Firebase.auth.signOut()
-            finish()
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 }
