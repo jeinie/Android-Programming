@@ -1,8 +1,8 @@
 package com.example.firebasetest
 
+import com.example.firebasetest.MainActivity
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,16 +19,16 @@ class LoginActivity : AppCompatActivity() {
         binding.login.setOnClickListener {
             val userEmail = binding.username.text.toString()
             val password = binding.password.text.toString()
-            //doLogin(userEmail, password)
+            doLogin(userEmail, password)
         }
         binding.signup.setOnClickListener {
             val userEmail = binding.username.text.toString()
             val password = binding.password.text.toString()
-            //doSignUp(userEmail, password)
+            doSignUp(userEmail, password)
         }
     }
 
-    /*private fun doLogin(userEmail: String, password: String) {
+    private fun doLogin(userEmail: String, password: String) {
         Firebase.auth.signInWithEmailAndPassword(userEmail, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
@@ -56,5 +56,5 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
                 }
             }
-    }*/
+    }
 }
